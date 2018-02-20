@@ -1,0 +1,85 @@
+<div class='panel panel-primary'>
+  <div class='panel-heading h3 text-center mb-20'>
+    {{pageTitle}}
+  </div>
+  <div class='panel-body'>
+    <div class='row float-right'>
+      <div class='col-md-4'>Filter by:</div>
+      <div class='col-md-8'>
+        <input type='text' [(ngModel)]='listFilter' />
+      </div>
+    </div>
+    <div class='row'>
+      <div class='col-md-6'>
+        <h6>Filtered by: {{listFilter}} </h6>
+      </div>
+
+    </div>
+    <div class='table-responsive'>
+      <table class='table'
+             *ngIf='products && products.length'>
+        <thead>
+          <tr>
+            <!--<th>
+            <button class='btn btn-primary'
+                    (click)='toggleImage()'>
+              {{showImage ? 'Hide' : 'Show'}} Image
+            </button>
+          </th>-->
+            <th>Product</th>
+            <th>Category</th>
+            <th>SubCategory</th>
+            <!--<th>Code</th>-->
+            <th>Available</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let product of filteredProducts'>
+            <!--<td>
+            <img *ngIf='showImage'
+                 [src]='product.imageUrl'
+                 [title]='product.productName'
+                 [style.width.px]='imageWidth'
+                 [style.margin.px]='imageMargin'>
+          </td>-->
+            <td>
+              <a [routerLink]="['/product', product.id]">
+                {{ product.name }}
+              </a>
+            </td>
+            <td>
+              {{ product.categoryId }}
+            </td>
+            <td>
+              {{ product.subCategoryId }}
+            </td>
+            <!--<td>{{ product.productCode | lowercase | convertToSpaces: '-' }}</td>-->
+            <td>{{ product.releaseDate }}</td>
+            <td>{{ product.price | currency:'USD':true:'1.2-2'}}</td>
+            <td>
+              <pm-star [rating]='product.starRating'
+                       (ratingClicked)='onRatingClicked($event)'>
+              </pm-star>
+            </td>
+            <td>
+              <a [routerLink]="['/product/edit', product.id]">
+                Edit
+              </a>
+              <a [routerLink]="['/product/delete', product.id]">
+                Delete
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="separator"></div>
+    <a href="#" class="btn btn-primary waves-light float-right" [routerLink]="['/product/add']" mdbRippleRadius>Add Product</a>
+  </div>
+</div>
+<div *ngIf='errorMessage' class='alert alert-danger'>
+  Error: {{ errorMessage }}
+</div>
